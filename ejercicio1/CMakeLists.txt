@@ -21,4 +21,4 @@ target_link_libraries(correrTests gtest gtest_main)
 # Test suites a ejecutar
 add_test(correrTests tests_grafo)
 
-add_executable(ejercicio1 main.cpp grafo.cpp grafo.h)
+add_executable(ejercicio1 main.cpp)

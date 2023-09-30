@@ -32,7 +32,7 @@ void checkImportantes(vector<importante> &importantes, vector<importante> &expec
     }
 }
 
-TEST(tests_grafos, inicializarCaso1) {
+/*TEST(tests_grafos, inicializarCaso1) {
     int N = 3;
     matrizAdyacencia resExpected = {
             {false, true,  true},
@@ -143,7 +143,7 @@ TEST(tests_grafos, inicializarVacio1) {
     pair<matrizAdyacencia, grados> r = make_pair(resExpected, gradosExpected);
 
     checkInicializar(res, r, N);
-}
+}*/
 
 TEST(tests_grafos, caso1) {
     int N = 3;
@@ -153,6 +153,7 @@ TEST(tests_grafos, caso1) {
             make_pair(1, 0)
     };
     vector<importante> importantes = buscarImportantes(N, aristas);
+
     vector<importante> expected = {make_pair(0, 1), make_pair(0, 2), make_pair(1, 2)};
 
     checkImportantes(importantes, expected);
@@ -296,4 +297,62 @@ TEST(tests_grafos, caso7) {
     };
 
     checkImportantes(importantes, expected);
+}
+
+TEST(test_hay_puentes, 1) {
+    int n = 3;
+    vector<vector<int>> E = {
+            {1, 2},
+            {0, 2},
+            {0, 1}
+    };
+
+    EXPECT_FALSE(hayPuentes(n, E, {-1, -1}));
+}
+
+TEST(test_hay_puentes, 2) {
+    int n = 3;
+    vector<vector<int>> E = {
+            {2},
+            {2},
+            {0, 1}
+    };
+
+    EXPECT_TRUE(hayPuentes(n, E, {-1, -1}));
+}
+
+TEST(test_hay_puentes, 3) {
+    int n = 4;
+    vector<vector<int>> E = {
+            {1, 2, 3},
+            {0, 2, 3},
+            {0, 1, 3},
+            {0, 1, 2}
+    };
+
+    EXPECT_FALSE(hayPuentes(n, E, {-1, -1}));
+}
+
+TEST(test_hay_puentes, oculta1) {
+    int n = 3;
+    vector<vector<int>> E = {
+            {1, 2},
+            {0, 2},
+            {0, 1}
+    };
+
+    EXPECT_TRUE(hayPuentes(n, E, {0, 1}));
+}
+
+TEST(test_hay_puentes, oculta2) {
+    int n = 4;
+    vector<vector<int>> E = {
+            {1, 2, 3},
+            {0, 2},
+            {0, 1, 3},
+            {0, 2}
+    };
+
+    EXPECT_TRUE(hayPuentes(n, E, {0, 1}));
+    EXPECT_FALSE(hayPuentes(n, E, {0, 2}));
 }

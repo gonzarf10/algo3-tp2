@@ -45,14 +45,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "correrTests::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-correrTests-Debug-7d63af7e6509399936b8.json",
+					"jsonFile" : "target-correrTests-Debug-caea0a5bf42b3c0042af.json",
 					"name" : "correrTests",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "ejercicio1::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ejercicio1-Debug-701f5591780aee4a74df.json",
+					"jsonFile" : "target-ejercicio1-Debug-320dafc95c5aa1732ac2.json",
 					"name" : "ejercicio1",
 					"projectIndex" : 0
 				},
@@ -76,8 +76,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug",
-		"source" : "C:/Users/gonza/Desktop/algo3-tp2/ejercicio1"
+		"build" : "C:/Users/gonza/OneDrive/Documentos/code/algo3-tp2/ejercicio1/cmake-build-debug",
+		"source" : "C:/Users/gonza/OneDrive/Documentos/code/algo3-tp2/ejercicio1"
 	},
 	"version" : 
 	{

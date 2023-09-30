@@ -3,55 +3,121 @@
 //
 #include "grafo.h"
 
-pair<matrizAdyacencia, grados> inicializar(int N, conjuntoAristas ca) {
-    matrizAdyacencia matriz(N);
-    grados grad(N, 0);
-    vector<bool> fila(N, false);
+int NO_LO_VI = 0, EMPECE_A_VER = 1, TERMINE_DE_VER = 2;
+
+vector<vector<int>> inicializar(int N, conjuntoAristas ca) {
+    vector<vector<int>> aristas(N);
+    /*vector<int> fila(N);
 
 
     for (int i = 0; i < N; ++i) { // O(N)
-        matriz[i] = fila;
-    }
+        aristas[i] = fila;
+    }*/
 
     for (arista ar: ca) {
-        matriz[ar.first][ar.second] = true;
-        matriz[ar.second][ar.first] = true;
-
-        grad[ar.first] += 1;
-        grad[ar.second] += 1;
+        aristas[ar.first].push_back(ar.second);
+        aristas[ar.second].push_back(ar.first);
     }
 
-
-    return make_pair(matriz, grad);
-}
-
-bool compareInterval(importante i1, importante i2) {
-    return i1.first < i2.first;
+    return aristas;
 }
 
 vector<importante> buscarImportantes(int N, conjuntoAristas ca) {
-    pair<matrizAdyacencia, grados> grafo = inicializar(N, ca);
+    vector<vector<int>> grafo = inicializar(N, ca);
     vector<importante> res;
+    vector<vector<bool>> ord(N);
 
-    matrizAdyacencia &adyacencias = grafo.first;
-    grados &gradosGrafo = grafo.second;
+    for (int i = 0; i < N; ++i) {
+        vector<bool> fila(N, false);
+        ord[i] = fila;
+    }
 
-    for (int i = 0; i < adyacencias.size(); ++i) {
-        if (gradosGrafo[i] <= 2) {
-            for (int j = 0; j < adyacencias[i].size(); ++j) {
-                if (adyacencias[i][j]) {
-                    if (j > i) {
-                        res.push_back(make_pair(i, j));
-                    } else {
-                        res.push_back(make_pair(j, i));
-                    }
-                    adyacencias[j][i] = false;
-                }
+    for (auto arista: ca) {
+        if (hayPuentes(N, grafo, arista)) {
+            if (arista.first > arista.second) {
+                //ord[arista.second].push_back(make_pair(arista.second, arista.first));
+                ord[arista.second][arista.first] = true;
+            } else {
+                //res.push_back(arista);
+                ord[arista.first][arista.second] = true;
             }
         }
     }
 
-    sort(res.begin(), res.end(), compareInterval);
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            if (ord[i][j]) {
+                res.push_back({i, j});
+            }
+        }
+    }
 
     return res;
+}
+
+void dfs(
+        int v,
+        vector<vector<int>> &tree_edges,
+        vector<int> &estado,
+        vector<vector<int>> &aristas,
+        vector<int> &be_con_extremo_inferior_en,
+        vector<int> &be_con_extremo_superior_en,
+        int p = -1,
+        pair<int, int> oculta = {-1, -1}
+) {
+    estado[v] = EMPECE_A_VER;
+    for (int u: aristas[v]) {
+        if ((v == oculta.first and u == oculta.second) or (u == oculta.first and v == oculta.second)) continue;
+        if (estado[u] == NO_LO_VI) {
+            tree_edges[v].push_back(u);
+            dfs(u, tree_edges, estado, aristas, be_con_extremo_inferior_en, be_con_extremo_superior_en, v, oculta);
+        } else if (u != p and estado[u] != TERMINE_DE_VER) {
+            be_con_extremo_inferior_en[v]++;
+            be_con_extremo_superior_en[u]++;
+        }
+    }
+    estado[v] = TERMINE_DE_VER;
+}
+
+int cubren(int v,
+           vector<int> &memo,
+           vector<int> &be_con_extremo_inferior_en,
+           vector<int> &be_con_extremo_superior_en,
+           vector<vector<int>> &tree_edges,
+           int p = -1
+) {
+
+    if (memo[v] != -1) return memo[v];
+    int res = 0;
+    for (int hijo: tree_edges[v]) {
+        if (hijo != p) {
+            res += cubren(hijo, memo, be_con_extremo_inferior_en, be_con_extremo_superior_en, tree_edges, v);
+        }
+    }
+    res -= be_con_extremo_superior_en[v];
+    res += be_con_extremo_inferior_en[v];
+    memo[v] = res;
+    return res;
+}
+
+bool hayPuentes(int n, vector<vector<int>> E, pair<int, int> oculta = {-1, -1}) {
+    vector<int> estado(n), memo(n, -1), be_con_extremo_inferior_en(n), be_con_extremo_superior_en(n);
+    vector<vector<int>> tree_edges(n);
+    for (int i = 0; i < n; ++i) {
+        vector<int> empty(n);
+        tree_edges.push_back(empty);
+    }
+
+    dfs(0, tree_edges, estado, E, be_con_extremo_inferior_en, be_con_extremo_superior_en, -1, oculta);
+
+    int puentes = 0;
+    for (int i = 0; i < n; i++) {
+        int c = cubren(i, memo, be_con_extremo_inferior_en, be_con_extremo_superior_en, tree_edges);
+        if (c == 0) {
+            puentes++;
+        }
+    }
+
+    puentes -= 1; // 1 componente conexa
+    return puentes > 0;
 }
