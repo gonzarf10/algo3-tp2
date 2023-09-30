@@ -1,0 +1,6 @@
+C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug/CMakeFiles/gtest.dir
+C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug/CMakeFiles/gtest_main.dir
+C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug/CMakeFiles/correrTests.dir
+C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug/CMakeFiles/ejercicio1.dir
+C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/gonza/Desktop/algo3-tp2/ejercicio1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
