@@ -1,7 +1,7 @@
 #include <iostream>
 #include <set>
 #include <list>
-#include <bits/stdc++.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -14,14 +14,9 @@ using importante = pair<int, int>;
 
 int NO_LO_VI = 0, EMPECE_A_VER = 1, TERMINE_DE_VER = 2;
 
+
 vector<vector<int>> inicializar(int N, conjuntoAristas ca) {
     vector<vector<int>> aristas(N);
-    /*vector<int> fila(N);
-
-
-    for (int i = 0; i < N; ++i) { // O(N)
-        aristas[i] = fila;
-    }*/
 
     for (arista ar: ca) {
         aristas[ar.first].push_back(ar.second);
@@ -63,7 +58,12 @@ int cubren(int v,
            int p = -1
 ) {
 
-    if (memo[v] != -1) return memo[v];
+    if (memo[v] != -1) {
+        //cout << "HIT" << v << endl;
+        return memo[v];
+    } else {
+        //cout << "MISS" << v << endl;
+    };
     int res = 0;
     for (int hijo: tree_edges[v]) {
         if (hijo != p) {
@@ -98,36 +98,22 @@ bool hayPuentes(int n, vector<vector<int>> E, pair<int, int> oculta = {-1, -1}) 
     return puentes > 0;
 }
 
-
 vector<importante> buscarImportantes(int N, conjuntoAristas ca) {
     vector<vector<int>> grafo = inicializar(N, ca);
     vector<importante> res;
-    vector<vector<bool>> ord(N);
-
-    for (int i = 0; i < N; ++i) {
-        vector<bool> fila(N, false);
-        ord[i] = fila;
-    }
+    res.reserve(ca.size());
 
     for (auto arista: ca) {
         if (hayPuentes(N, grafo, arista)) {
             if (arista.first > arista.second) {
-                //ord[arista.second].push_back(make_pair(arista.second, arista.first));
-                ord[arista.second][arista.first] = true;
+                res.emplace_back(arista.second, arista.first);
             } else {
-                //res.push_back(arista);
-                ord[arista.first][arista.second] = true;
+                res.emplace_back(arista);
             }
         }
     }
 
-    for (int i = 0; i < N; ++i) {
-        for (int j = 0; j < N; ++j) {
-            if (ord[i][j]) {
-                res.push_back({i, j});
-            }
-        }
-    }
+    sort(res.begin(), res.end());
 
     return res;
 }

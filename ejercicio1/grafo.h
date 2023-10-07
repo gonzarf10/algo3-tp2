@@ -9,6 +9,7 @@
 #include <set>
 #include <list>
 #include <bits/stdc++.h>
+#include <algorithm>
 
 using namespace std;
 
