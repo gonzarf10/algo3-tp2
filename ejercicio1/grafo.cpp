@@ -16,26 +16,6 @@ vector<vector<int>> inicializar(int N, conjuntoAristas ca) {
     return aristas;
 }
 
-vector<importante> buscarImportantes(int N, conjuntoAristas ca) {
-    vector<vector<int>> grafo = inicializar(N, ca);
-    vector<importante> res;
-    res.reserve(ca.size());
-
-    for (auto arista: ca) {
-        if (hayPuentes(N, grafo, arista)) {
-            if (arista.first > arista.second) {
-                res.emplace_back(arista.second, arista.first);
-            } else {
-                res.emplace_back(arista);
-            }
-        }
-    }
-
-    sort(res.begin(), res.end());
-
-    return res;
-}
-
 void dfs(
         int v,
         vector<vector<int>> &tree_edges,
@@ -86,7 +66,7 @@ int cubren(int v,
     return res;
 }
 
-bool hayPuentes(int n, vector<vector<int>> E, pair<int, int> oculta = {-1, -1}) {
+bool hayPuentes(int n, vector<vector<int>> &E, pair<int, int> oculta = {-1, -1}) {
     vector<int> estado(n), memo(n, -1), be_con_extremo_inferior_en(n), be_con_extremo_superior_en(n);
     vector<vector<int>> tree_edges(n);
     for (int i = 0; i < n; ++i) {
@@ -106,4 +86,23 @@ bool hayPuentes(int n, vector<vector<int>> E, pair<int, int> oculta = {-1, -1}) 
 
     puentes -= 1; // 1 componente conexa
     return puentes > 0;
+}
+
+vector<importante> buscarImportantes(int N, conjuntoAristas &ca, vector<vector<int>> &listaAd) {
+    vector<importante> res;
+    res.reserve(ca.size());
+
+    for (auto arista: ca) {
+        if (hayPuentes(N, listaAd, arista)) {
+            if (arista.first > arista.second) {
+                res.emplace_back(arista.second, arista.first);
+            } else {
+                res.emplace_back(arista);
+            }
+        }
+    }
+
+    sort(res.begin(), res.end());
+
+    return res;
 }

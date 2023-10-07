@@ -2,6 +2,7 @@
 #include <set>
 #include <list>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -76,7 +77,7 @@ int cubren(int v,
     return res;
 }
 
-bool hayPuentes(int n, vector<vector<int>> E, pair<int, int> oculta = {-1, -1}) {
+bool hayPuentes(int n, vector<vector<int>> &E, pair<int, int> oculta = {-1, -1}) {
     vector<int> estado(n), memo(n, -1), be_con_extremo_inferior_en(n), be_con_extremo_superior_en(n);
     vector<vector<int>> tree_edges(n);
     for (int i = 0; i < n; ++i) {
@@ -98,26 +99,6 @@ bool hayPuentes(int n, vector<vector<int>> E, pair<int, int> oculta = {-1, -1}) 
     return puentes > 0;
 }
 
-vector<importante> buscarImportantes(int N, conjuntoAristas ca) {
-    vector<vector<int>> grafo = inicializar(N, ca);
-    vector<importante> res;
-    res.reserve(ca.size());
-
-    for (auto arista: ca) {
-        if (hayPuentes(N, grafo, arista)) {
-            if (arista.first > arista.second) {
-                res.emplace_back(arista.second, arista.first);
-            } else {
-                res.emplace_back(arista);
-            }
-        }
-    }
-
-    sort(res.begin(), res.end());
-
-    return res;
-}
-
 pair<int, conjuntoAristas> pedir() {
     int n, m;
     cin >> n >> m;
@@ -132,13 +113,33 @@ pair<int, conjuntoAristas> pedir() {
     return make_pair(n, E);
 }
 
+vector<importante> buscarImportantes(int N, conjuntoAristas &ca, vector<vector<int>> &listaAd) {
+    vector<importante> res;
+    res.reserve(ca.size());
+
+    for (auto arista: ca) {
+        if (hayPuentes(N, listaAd, arista)) {
+            if (arista.first > arista.second) {
+                res.emplace_back(arista.second, arista.first);
+            } else {
+                res.emplace_back(arista);
+            }
+        }
+    }
+
+    sort(res.begin(), res.end());
+
+    return res;
+}
+
 int main() {
     int c;
     cin >> c;
 
     for (int i = 0; i < c; ++i) {
         pair<int, conjuntoAristas> grafo = pedir();
-        vector<importante> importantes = buscarImportantes(grafo.first, grafo.second);
+        vector<vector<int>> listaAd = inicializar(grafo.first, grafo.second);
+        vector<importante> importantes = buscarImportantes(grafo.first, grafo.second, listaAd);
 
         cout << importantes.size() << endl;
 

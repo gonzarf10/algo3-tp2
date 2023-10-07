@@ -22,7 +22,7 @@ using importante = pair<int, int>;
 
 vector<vector<int>> inicializar(int N, conjuntoAristas ca); // O(N^2)
 
-vector<importante> buscarImportantes(int N, conjuntoAristas ca);
+vector<importante> buscarImportantes(int N, conjuntoAristas &ca, vector<vector<int>> &listaAd);
 
 int cubren(int v,
            vector<int> &memo,
@@ -43,6 +43,6 @@ void dfs(
         pair<int, int> oculta
 );
 
-bool hayPuentes(int n, vector<vector<int>> E, pair<int,int> oculta);
+bool hayPuentes(int n, vector<vector<int>>& E, pair<int, int> oculta);
 
 #endif //EJERCICIO1_GRAFO_H
