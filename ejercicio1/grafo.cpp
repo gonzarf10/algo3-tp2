@@ -91,9 +91,30 @@ bool hayPuentes(int n, vector<vector<int>> &E, pair<int, int> oculta = {-1, -1})
 vector<importante> buscarImportantes(int N, conjuntoAristas &ca, vector<vector<int>> &listaAd) {
     vector<importante> res;
     res.reserve(ca.size());
+    int n = N;
+
+    vector<int> estado(n), memo(n, -1), be_con_extremo_inferior_en(n), be_con_extremo_superior_en(n);
+    vector<vector<int>> tree_edges(n);
+    for (int i = 0; i < n; ++i) {
+        vector<int> empty(n);
+        tree_edges.push_back(empty);
+    }
+
+    dfs(0, tree_edges, estado, listaAd, be_con_extremo_inferior_en, be_con_extremo_superior_en, -1, {-1, -1});
+
+    /*int puentes = 0;
+    for (int i = 0; i < n; i++) {
+        int c = cubren(i, memo, be_con_extremo_inferior_en, be_con_extremo_superior_en, tree_edges);
+        if (c == 0) {
+            puentes++;
+        }
+    }*/
 
     for (auto arista: ca) {
-        if (hayPuentes(N, listaAd, arista)) {
+
+        int c = cubren(arista.second, memo, be_con_extremo_inferior_en, be_con_extremo_superior_en, tree_edges);
+
+        if (c <= 1) {
             if (arista.first > arista.second) {
                 res.emplace_back(arista.second, arista.first);
             } else {
