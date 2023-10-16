@@ -15,26 +15,25 @@ using namespace std;
 
 
 using arista = pair<int, int>;
-using conjuntoAristas = set<arista>;
 using grados = vector<int>;
 using matrizAdyacencia = vector<vector<bool>>;
 using importante = pair<int, int>;
 
-vector<vector<int>> inicializar(int N, conjuntoAristas ca); // O(N^2)
+vector<vector<int>> inicializar(int N, vector<arista> ca); // O(N^2)
 
-vector<importante> buscarImportantes(int N, conjuntoAristas &ca, vector<vector<int>> &listaAd);
+vector<importante> buscarImportantes(int N, vector<arista> &ca, vector<vector<int>> &listaAd);
 
 int cubren(int v,
            vector<int> &memo,
            vector<int> &be_con_extremo_inferior_en,
            vector<int> &be_con_extremo_superior_en,
-           vector<vector<int>> &tree_edges,
+           vector<list<int>> &tree_edges,
            int p
 );
 
 void dfs(
         int v,
-        vector<vector<int>> &tree_edges,
+        vector<list<int>> &tree_edges,
         vector<int> &estado,
         vector<vector<int>> &aristas,
         vector<int> &be_con_extremo_inferior_en,
