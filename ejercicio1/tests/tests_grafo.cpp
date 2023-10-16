@@ -147,11 +147,12 @@ TEST(tests_grafos, inicializarVacio1) {
 
 TEST(tests_grafos, caso1) {
     int N = 3;
-    conjuntoAristas aristas = {
+    vector<arista> aristas = {
             make_pair(0, 2),
-            make_pair(2, 1),
-            make_pair(1, 0)
+            make_pair(1, 2),
+            make_pair(0, 1)
     };
+    sort(aristas.begin(), aristas.end());
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
 
@@ -162,7 +163,7 @@ TEST(tests_grafos, caso1) {
 
 TEST(tests_grafos, caso2) {
     int N = 4;
-    conjuntoAristas aristas = {
+    vector<arista> aristas = {
             make_pair(0, 1),
             make_pair(0, 2),
             make_pair(0, 3),
@@ -170,6 +171,7 @@ TEST(tests_grafos, caso2) {
             make_pair(1, 3),
             make_pair(2, 3),
     };
+    sort(aristas.begin(), aristas.end());
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
     vector<importante> expected = {};
@@ -180,16 +182,17 @@ TEST(tests_grafos, caso2) {
 
 TEST(tests_grafos, caso3) {
     int N = 6;
-    conjuntoAristas aristas = {
+    vector<arista> aristas = {
             make_pair(0, 2),
-            make_pair(2, 1),
-            make_pair(1, 0),
+            make_pair(1, 2),
+            make_pair(0, 1),
             make_pair(2, 3),
             make_pair(3, 4),
-            make_pair(4, 2),
+            make_pair(2, 4),
             make_pair(2, 5),
-            make_pair(5, 3),
+            make_pair(3, 5),
     };
+    sort(aristas.begin(), aristas.end());
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
 
@@ -207,17 +210,18 @@ TEST(tests_grafos, caso3) {
 }
 
 TEST(tests_grafos, caso4) {
-    conjuntoAristas aristas = {
+    vector<arista> aristas = {
             make_pair(1, 3),
-            make_pair(3, 2),
-            make_pair(3, 0),
-            make_pair(2, 0),
-            make_pair(1, 0),
+            make_pair(2, 3),
+            make_pair(0, 3),
+            make_pair(0, 2),
+            make_pair(0, 1),
             make_pair(0, 4),
             make_pair(4, 5),
             make_pair(0, 5),
     };
     int N = 6;
+    sort(aristas.begin(), aristas.end());
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
 
@@ -235,14 +239,16 @@ TEST(tests_grafos, caso4) {
 }
 
 TEST(tests_grafos, caso5) {
-    conjuntoAristas aristas = {
-            make_pair(3, 0),
-            make_pair(3, 2),
+    vector<arista> aristas = {
+            make_pair(0, 3),
+            make_pair(2, 3),
             make_pair(0, 2),
-            make_pair(2, 1),
-            make_pair(1, 0),
+            make_pair(1, 2),
+            make_pair(0, 1),
     };
     int N = 4;
+    sort(aristas.begin(), aristas.end());
+
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
 
@@ -257,16 +263,18 @@ TEST(tests_grafos, caso5) {
 }
 
 TEST(tests_grafos, caso6) {
-    conjuntoAristas aristas = {
+    vector<arista> aristas = {
             make_pair(0, 1),
             make_pair(0, 2),
             make_pair(0, 3),
             make_pair(0, 4),
             make_pair(2, 3),
-            make_pair(2, 1),
+            make_pair(1, 2),
             make_pair(3, 4),
     };
     int N = 5;
+    sort(aristas.begin(), aristas.end());
+
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
 
@@ -281,18 +289,20 @@ TEST(tests_grafos, caso6) {
 }
 
 TEST(tests_grafos, caso7) {
-    conjuntoAristas aristas = {
+    vector<arista> aristas = {
             make_pair(0, 1),
             make_pair(0, 2),
             make_pair(0, 3),
             make_pair(0, 4),
             make_pair(2, 3),
-            make_pair(2, 1),
+            make_pair(1, 2),
             make_pair(3, 5),
-            make_pair(5, 4),
+            make_pair(4, 5),
             make_pair(1, 5),
     };
     int N = 6;
+    sort(aristas.begin(), aristas.end());
+
     vector<vector<int>> listaAd = inicializar(N, aristas);
     vector<importante> importantes = buscarImportantes(N, aristas, listaAd);
 
